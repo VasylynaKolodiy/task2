@@ -5,14 +5,20 @@ import "./NotesList.scss"
 
 interface NotesListProps {
     notes: INote[],
+    setIsOpenDialog: (isOpenDialog: boolean) => void,
+    setCurrentNote: (note: INote) => void,
 }
 
-const NotesList: React.FC<NotesListProps> = ({notes}) => {
+const NotesList: React.FC<NotesListProps> = ({notes, setIsOpenDialog, setCurrentNote}) => {
     return (
         <tbody>
             {notes.map((note) =>
                 <tr className="notes__row" key={note.id}>
-                    <NoteItem note={note}/>
+                    <NoteItem
+                        note={note}
+                        setIsOpenDialog={setIsOpenDialog}
+                        setCurrentNote={setCurrentNote}
+                    />
                 </tr>
             )}
         </tbody>

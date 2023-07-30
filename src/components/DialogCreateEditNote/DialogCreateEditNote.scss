@@ -34,8 +34,12 @@
 
   &__title{
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: space-between;
+
+    &-text{
+      margin: 0 auto 30px auto;
+    }
   }
 
   &__close-btn{
@@ -43,6 +47,12 @@
     height: 20px;
     cursor: pointer;
     border: 1px solid black;
+    border-radius: 5px;
+    transition: .3s linear;
+
+    &:hover{
+      background-color: rgba(255, 0, 0, 0.2);
+    }
 
     & svg{
       width: 100%;
@@ -70,7 +80,7 @@
 
     & div{
       display: grid;
-      grid-template-columns: 1fr 4fr;
+      grid-template-columns: 2fr 5fr;
       align-items: center;
       grid-gap: 20px;
       width: 50%;

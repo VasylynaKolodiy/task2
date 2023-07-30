@@ -1,19 +1,19 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {ReactComponent as IconClose} from "../../assets/img/icon-close.svg";
-import "./DialogCreateNote.scss";
+import "./DialogCreateEditNote.scss";
 import {useActions} from "../../hooks/actions";
 import {INote} from "../../models/Interfaces";
-import {useId} from 'react'
 import {parseDateFromString} from "../../helpers";
 
-interface IDialogCreateNoteProps {
+interface IDialogCreateEditNoteProps {
     isOpenDialog: boolean,
     setIsOpenDialog: (isOpenDialog: boolean) => void,
+    currentNote?: INote | null,
 }
 
-const DialogCreateNote: React.FC<IDialogCreateNoteProps> = ({isOpenDialog, setIsOpenDialog}) => {
+const DialogCreateEditNote: React.FC<IDialogCreateEditNoteProps> = ({isOpenDialog, setIsOpenDialog, currentNote}) => {
     const initNote = {
-        id: +useId(),
+        id: Date.now(),
         name: "",
         created: "",
         category: "",
@@ -22,20 +22,34 @@ const DialogCreateNote: React.FC<IDialogCreateNoteProps> = ({isOpenDialog, setIs
     }
 
     const [newNote, setNewNote] = useState<INote>(initNote)
-    const {createNote} = useActions()
+    const {createNote, editNote} = useActions();
+
+    useEffect(() => {
+        currentNote && setNewNote(currentNote)
+    }, [currentNote])
 
     const handleCloseDialog = () => {
+        setNewNote(initNote)
         setIsOpenDialog(false);
     }
 
-    const handleCreateNote = () => {
+    const handleCreateOrEditNote = () => {
         try {
             if (newNote.name && newNote.category && newNote.content) {
-                createNote({
-                    ...newNote,
-                    created: new Date().toLocaleDateString('en-us', { day:"numeric", month:"short", year:"numeric"}),
-                    dates: parseDateFromString(newNote.content)
-                })
+                currentNote
+                    ? (
+                        editNote({
+                            ...newNote,
+                            dates: parseDateFromString(newNote.content)
+                        })
+                    )
+                    : (
+                        createNote({
+                            ...newNote,
+                            created: new Date().toLocaleDateString('en-us', { day:"numeric", month:"short", year:"numeric"}),
+                            dates: parseDateFromString(newNote.content)
+                        })
+                    )
                 setNewNote(initNote)
                 setIsOpenDialog(false)
             } else {
@@ -53,7 +67,7 @@ const DialogCreateNote: React.FC<IDialogCreateNoteProps> = ({isOpenDialog, setIs
 
             <div className="dialog__window">
                 <div className="dialog__title">
-                    <div className='dialog__title-text'>Create new note</div>
+                    <h3 className='dialog__title-text'>{currentNote ? 'Edit note' : 'Create new note'}</h3>
                     <div className='dialog__close-btn' onClick={() => handleCloseDialog()}>
                         <IconClose/>
                     </div>
@@ -71,7 +85,7 @@ const DialogCreateNote: React.FC<IDialogCreateNoteProps> = ({isOpenDialog, setIs
                             />
                         </div>
 
-                        <div className="dialog__form-Category">
+                        <div className="dialog__form-category">
                             <label htmlFor="category">Select category: </label>
                             <select
                                 name="category"
@@ -79,7 +93,7 @@ const DialogCreateNote: React.FC<IDialogCreateNoteProps> = ({isOpenDialog, setIs
                                 value={newNote.category}
                                 onChange={(event) => setNewNote({...newNote, category: event.target.value})}
                             >
-                                <option value="" disabled>Select category</option>
+                                <option value="" disabled/>
                                 <option value="Shopping">Shopping</option>
                                 <option value="Tasks">Tasks</option>
                                 <option value="Health and beauty">Health and beauty</option>
@@ -100,8 +114,8 @@ const DialogCreateNote: React.FC<IDialogCreateNoteProps> = ({isOpenDialog, setIs
                 </div>
 
                 <div className="dialog__actions">
-                    <button className="dialog__create-btn" onClick={() => handleCreateNote()}>
-                        Create
+                    <button className="dialog__create-btn" onClick={() => handleCreateOrEditNote()}>
+                        {currentNote ? 'Edit' : 'Create'}
                     </button>
                     <button className="dialog__cancel-btn" onClick={() => handleCloseDialog()}>
                         Cancel
@@ -112,4 +126,4 @@ const DialogCreateNote: React.FC<IDialogCreateNoteProps> = ({isOpenDialog, setIs
     );
 };
 
-export default DialogCreateNote;
+export default DialogCreateEditNote;

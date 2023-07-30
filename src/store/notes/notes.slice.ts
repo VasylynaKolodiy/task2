@@ -4,10 +4,10 @@ import {INote} from "../../models/Interfaces";
 const notes = [
     {
         id: 0,
-        name: "To create a notes app in JS as a web app",
+        name: "To create a notes app in JS",
         created: "Jul 23, 2023",
         category: "Tasks",
-        content: "Task is to create a notes app in JS as a web app. Users can add, edit and remove notes.",
+        content: "Task is to create a notes app in JS as a web app. Users can add, edit and remove notes",
         dates: "-",
     },
     {
@@ -15,20 +15,20 @@ const notes = [
         name: "To buy backpack",
         created: "Jul 23, 2023",
         category: "Shopping",
-        content: "Buy a comfortable backpack for travel until 01/08/2023.",
+        content: "Buy a comfortable backpack for travel until 01/08/2023",
         dates: "01/08/2023",
     },
     {
         id: 2,
-        name: "To create a notes app using React.js",
+        name: "To create a notes app in React.js",
         created: "Jul 23, 2023",
         category: "Tasks",
-        content: "Task is to create a notes app using React.js, Redux Toolkit and TypeScript.",
+        content: "Task is to create a notes app using React.js, Redux Toolkit and TypeScript",
         dates: "-",
     },
     {
         id: 3,
-        name: "To create a NodeJS application with TypeScript",
+        name: "To create a NodeJS application",
         created: "Jul 23, 2023",
         category: "Tasks",
         content: "Task is to create a notes app using NodeJS. That will have few REST endpoints until 7/08/2023",
@@ -44,7 +44,7 @@ const notes = [
     },
     {
         id: 5,
-        name: "Make an appointment with a dentist",
+        name: "To make an appointment with a dentist",
         created: "Jul 23, 2023",
         category: "Health and beauty",
         content: "I’m gonna have a dentist appointment on the 3/5/2023, I moved it from 5/5/2023",
@@ -52,7 +52,7 @@ const notes = [
     },
     {
         id: 6,
-        name: "Make an appointment with a hairdresser",
+        name: "To make an appointment with a hairdresser",
         created: "Jul 23, 2023",
         category: "Health and beauty",
         content: "Make an appointment with a hairdresser",
@@ -69,7 +69,20 @@ export const notesSlice = createSlice({
     initialState,
     reducers: {
         createNote(state, action: PayloadAction<INote>) {
-            state.notes.push(action.payload)
+            state.notes.unshift(action.payload)
+        },
+
+        removeNote(state, action: PayloadAction<number>) {
+            state.notes = state.notes.filter(note => note.id !== action.payload)
+        },
+
+        removeAllNotes(state) {
+            state.notes.length = 0
+        },
+
+        editNote(state, action: PayloadAction<INote>) {
+            const index = state.notes.findIndex(note => note.id === action.payload.id);
+            state.notes[index] = action.payload
         },
     }
 })
