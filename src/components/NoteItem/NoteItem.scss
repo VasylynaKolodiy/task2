@@ -1,0 +1,26 @@
+.note {
+  &__name {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    justify-content: flex-start;
+  }
+
+  &__category-icon {
+    width: 40px;
+    height: 40px;
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 5px;
+
+    & svg{
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+  }
+
+  &__name-text{
+    width: 80%;
+  }
+}

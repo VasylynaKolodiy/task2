@@ -1,0 +1,22 @@
+.notes__table{
+  width: 100%;
+  padding: 50px;
+  margin: 0 auto;
+
+  tr{
+    display: table-row;
+    background-color: lightgray;
+    vertical-align: top;
+    text-align: left;
+  }
+
+  th{
+    text-align: center;
+    background-color: darkgray;
+  }
+
+  th, td{
+    padding: 10px;
+  }
+}
+

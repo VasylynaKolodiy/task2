@@ -1,26 +1,37 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, {useState} from 'react';
+import './App.scss';
+import {useAppSelector} from "./hooks/redux";
+import NotesList from "./components/NotesList/NotesList";
+import NotesHeaders from "./components/NotesHeaders/NotesHeaders";
+import DialogCreateNote from "./components/DialogCreateNote/DialogCreateNote";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    const notes = useAppSelector((state) => state.notes)
+    const [isOpenDialog, setIsOpenDialog] = useState<boolean>(false)
+
+    const handleOpenDialog = () => {
+        setIsOpenDialog(true);
+    }
+
+    return (
+        <div className="App">
+            <div className={`notes ${isOpenDialog ? 'blur' : ''}`}>
+                <table className="notes__table">
+                    <NotesHeaders/>
+                    <NotesList notes={notes}/>
+                </table>
+
+                <div className="notes__create">
+                    <button onClick={() => handleOpenDialog()}>Create Note</button>
+                </div>
+            </div>
+
+            <DialogCreateNote
+                isOpenDialog={isOpenDialog}
+                setIsOpenDialog={setIsOpenDialog}
+            />
+        </div>
+    );
 }
 
 export default App;

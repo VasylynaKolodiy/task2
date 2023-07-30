@@ -1,0 +1,19 @@
+*{
+  box-sizing: border-box;
+}
+
+.App {
+  text-align: center;
+}
+
+.notes {
+  &__create {
+    & button {
+      cursor: pointer;
+    }
+  }
+
+  &.blur{
+    filter: blur(3px);
+  }
+}
