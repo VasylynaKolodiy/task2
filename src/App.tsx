@@ -10,6 +10,9 @@ function App() {
     const notes = useAppSelector((state) => state.notes)
     const [isOpenDialog, setIsOpenDialog] = useState<boolean>(false)
     const [currentNote, setCurrentNote] = useState<INote | null>(null)
+    const [showArchived, setShowArchived] = useState(false);
+    const notArchivedNotes = notes?.filter(note => !note.archived)
+    const isAllNotesArchived = ((notArchivedNotes.length === 0) && (notes.length > 0))
 
     const handleOpenDialogForCreate = () => {
         setCurrentNote(null)
@@ -21,10 +24,31 @@ function App() {
             {notes.length > 0
                 ? (
                     <div className={`notes ${isOpenDialog ? 'blur' : ''}`}>
+                        <div className="notes__archived">
+                            <div
+                                className={`notes__notification ${(isAllNotesArchived && !showArchived) ? 'visible' : ''}`}
+                            >
+                                You have only archived notes.
+                                Please check "Show archived notes" or create a new note.
+                            </div>
+
+                            <div>
+                                <label htmlFor="archive">Show archived notes: </label>
+                                <input
+                                    type="checkbox"
+                                    id="archive"
+                                    checked={showArchived}
+                                    onChange={(event) => setShowArchived(event.target.checked)}
+                                />
+                            </div>
+                        </div>
+
                         <table className="notes__table">
-                            <NotesHeaders/>
+                            <NotesHeaders
+                                isAllNotesArchived={isAllNotesArchived}
+                            />
                             <NotesList
-                                notes={notes}
+                                notes={showArchived ? notes : notArchivedNotes}
                                 setIsOpenDialog={setIsOpenDialog}
                                 setCurrentNote={setCurrentNote}
                             />

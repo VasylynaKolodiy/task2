@@ -13,7 +13,7 @@ const NotesList: React.FC<NotesListProps> = ({notes, setIsOpenDialog, setCurrent
     return (
         <tbody>
             {notes.map((note) =>
-                <tr className="notes__row" key={note.id}>
+                <tr className={`notes__row ${note.archived ? 'archived' : ''}`} key={note.id}>
                     <NoteItem
                         note={note}
                         setIsOpenDialog={setIsOpenDialog}

@@ -12,6 +12,8 @@ h4{
 
 .notes {
   &__create {
+    margin-bottom: 50px;
+
     & button {
       cursor: pointer;
     }
@@ -19,5 +21,29 @@ h4{
 
   &.blur{
     filter: blur(3px);
+  }
+
+  &__notification{
+    color: maroon;
+    font-weight: bold;
+    visibility: hidden;
+
+    &.visible{
+      visibility: visible;
+    }
+  }
+
+  &__archived{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    margin: 50px 50px 0 50px;
+    text-align: right;
+  }
+
+  &__create{
+    text-align: right;
+    margin: 0 50px 0 0;
   }
 }

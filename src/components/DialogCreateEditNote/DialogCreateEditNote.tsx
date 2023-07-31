@@ -19,6 +19,7 @@ const DialogCreateEditNote: React.FC<IDialogCreateEditNoteProps> = ({isOpenDialo
         category: "",
         content: "",
         dates: "",
+        archived: false,
     }
 
     const [newNote, setNewNote] = useState<INote>(initNote)

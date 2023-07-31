@@ -9,6 +9,7 @@ const notes = [
         category: "Tasks",
         content: "Task is to create a notes app in JS as a web app. Users can add, edit and remove notes",
         dates: "-",
+        archived: false,
     },
     {
         id: 1,
@@ -17,6 +18,7 @@ const notes = [
         category: "Shopping",
         content: "Buy a comfortable backpack for travel until 01/08/2023",
         dates: "01/08/2023",
+        archived: false,
     },
     {
         id: 2,
@@ -25,6 +27,7 @@ const notes = [
         category: "Tasks",
         content: "Task is to create a notes app using React.js, Redux Toolkit and TypeScript",
         dates: "-",
+        archived: false,
     },
     {
         id: 3,
@@ -33,6 +36,7 @@ const notes = [
         category: "Tasks",
         content: "Task is to create a notes app using NodeJS. That will have few REST endpoints until 7/08/2023",
         dates: "7/08/2023",
+        archived: false,
     },
     {
         id: 4,
@@ -41,6 +45,7 @@ const notes = [
         category: "Shopping",
         content: "Buy a sunscreen until dates between 06/08/2023 and 13/08/2023",
         dates: "06/08/2023, 13/08/2023",
+        archived: false,
     },
     {
         id: 5,
@@ -49,6 +54,7 @@ const notes = [
         category: "Health and beauty",
         content: "I’m gonna have a dentist appointment on the 3/5/2023, I moved it from 5/5/2023",
         dates: "3/5/2023, 5/5/2023",
+        archived: false,
     },
     {
         id: 6,
@@ -57,6 +63,7 @@ const notes = [
         category: "Health and beauty",
         content: "Make an appointment with a hairdresser",
         dates: "-",
+        archived: false,
     },
 ]
 
@@ -83,6 +90,17 @@ export const notesSlice = createSlice({
         editNote(state, action: PayloadAction<INote>) {
             const index = state.notes.findIndex(note => note.id === action.payload.id);
             state.notes[index] = action.payload
+        },
+
+        archiveNote(state, action: PayloadAction<INote>) {
+            const index = state.notes.findIndex(note => note.id === action.payload.id);
+            state.notes[index].archived = !action.payload.archived
+        },
+
+        archiveAllNotes(state, action: PayloadAction<boolean>) {
+            state.notes = state.notes.map(note => {
+                return { ...note, archived: action.payload };
+            });
         },
     }
 })

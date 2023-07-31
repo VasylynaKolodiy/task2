@@ -6,6 +6,8 @@ import {ReactComponent as IconShopping} from "../../assets/img/icon-shopping.svg
 import {ReactComponent as IconTasks} from "../../assets/img/icon-tasks.svg";
 import {ReactComponent as IconRemove} from "../../assets/img/icon-remove.svg";
 import {ReactComponent as IconEdit} from "../../assets/img/icon-edit.svg";
+import {ReactComponent as IconArchive} from "../../assets/img/icon-archive.svg";
+import {ReactComponent as IconUnArchive} from "../../assets/img/icon-unarchive.svg";
 import {useActions} from "../../hooks/actions";
 
 interface NoteItemProps {
@@ -15,11 +17,15 @@ interface NoteItemProps {
 }
 
 const NoteItem: React.FC<NoteItemProps> = ({note, setIsOpenDialog, setCurrentNote}) => {
-    const {removeNote} = useActions()
+    const {removeNote, archiveNote} = useActions()
 
     const handleOpenDialogForEdit = (note: INote) => {
         setCurrentNote(note)
         setIsOpenDialog(true)
+    }
+
+    const handleArchiveNote = (note: INote) => {
+        archiveNote(note)
     }
 
     const handleRemoveNote = (id: number) => {
@@ -52,10 +58,25 @@ const NoteItem: React.FC<NoteItemProps> = ({note, setIsOpenDialog, setCurrentNot
                 {note.dates}
             </td>
             <td className="note__actions">
-                <div className="note__actions-edit" onClick={() => handleOpenDialogForEdit(note)} title="Edit note">
+                <div
+                    className="note__actions-edit"
+                    onClick={() => handleOpenDialogForEdit(note)}
+                    title="Edit note"
+                >
                     <IconEdit/>
                 </div>
-                <div className="note__actions-remove" onClick={() => handleRemoveNote(note.id)} title="Remove note">
+                <div
+                    className="note__actions-archive"
+                    onClick={() => handleArchiveNote(note)}
+                    title={note.archived ? "UnArchive note" : "Archive note"}
+                >
+                    {note.archived ? <IconUnArchive/> : <IconArchive/>}
+                </div>
+                <div
+                    className="note__actions-remove"
+                    onClick={() => handleRemoveNote(note.id)}
+                    title="Remove note"
+                >
                     <IconRemove/>
                 </div>
             </td>

@@ -5,4 +5,5 @@ export interface INote {
   category: string,
   content: string,
   dates: string,
+  archived: boolean,
 }
