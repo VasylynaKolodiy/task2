@@ -2,16 +2,17 @@ import React, {useEffect, useState} from 'react';
 import {ReactComponent as IconClose} from "../../assets/img/icon-close.svg";
 import "./DialogCreateEditNote.scss";
 import {useActions} from "../../hooks/actions";
-import {INote} from "../../models/Interfaces";
+import {ICategory, INote} from "../../models/Interfaces";
 import {parseDateFromString} from "../../helpers";
 
 interface IDialogCreateEditNoteProps {
     isOpenDialog: boolean,
     setIsOpenDialog: (isOpenDialog: boolean) => void,
     currentNote?: INote | null,
+    categories:ICategory[],
 }
 
-const DialogCreateEditNote: React.FC<IDialogCreateEditNoteProps> = ({isOpenDialog, setIsOpenDialog, currentNote}) => {
+const DialogCreateEditNote: React.FC<IDialogCreateEditNoteProps> = ({isOpenDialog, setIsOpenDialog, currentNote, categories}) => {
     const initNote = {
         id: Date.now(),
         name: "",
@@ -95,9 +96,9 @@ const DialogCreateEditNote: React.FC<IDialogCreateEditNoteProps> = ({isOpenDialo
                                 onChange={(event) => setNewNote({...newNote, category: event.target.value})}
                             >
                                 <option value="" disabled/>
-                                <option value="Shopping">Shopping</option>
-                                <option value="Tasks">Tasks</option>
-                                <option value="Health and beauty">Health and beauty</option>
+                                {categories.map(category =>
+                                    <option value={category.id} key={category.id}>{category.id}</option>
+                                )}
 
                             </select>
                         </div>
